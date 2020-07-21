@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Voting</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+		<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+		<script src="https://cdn.jsdelivr.net/gh/ethereum/web3.js@0.20.6/dist/web3.min.js" ></script>
+		<link rel="stylesheet" type="text/css" href="voting.css">
+</head>
+<body>
+
+	<div class="container">
+		<div class="jumbotron">
+			<h1><i class="fa fa-unlock" aria-hidden="true"></i>Ballot Box</h1>
+			<p>A ballot for the Election</p>
+		</div>
+		<div class="forms">
+		<form class="Member__info">
+			<h3 class="add__member">
+				Add Candidates
+			</h3>
+			<input id="ckey" type="text" name="public_key" placeholder="Enter Public Key">
+			<br>
+			<input id="NameCan" type="text" name="NameCan" placeholder="Enter Name">
+			<button class="btn btn-primary btn-block" id="submitCan">Submit</button>
+		</form>
+
+		<form class="Member__info">
+			<h3 class="add__member">
+				Add Voters
+			</h3>
+			<input id="vkey" type="text" name="public_key" placeholder="Enter Public Key">
+			<br>
+			<input id="NameVot" type="text" name="NameVot" placeholder="Enter Name">
+			<button class="btn btn-primary btn-block" id="submitVot">Submit</button>
+		</form>
+		</div>
+		<button id="btn__start" class="btn btn-success btn-block">START ELECTION</button>
+<!-- 		<button id="btn__winner" class="btn btn-danger btn-block">Find Winner</button> -->
+	</div>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/core.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+	<script type="text/javascript">
+	if (typeof web3 !== 'undefined') {
+            web3 = new Web3(web3.currentProvider);
+        } else {
+            // set the provider you want from Web3.providers
+            web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
+        }
+     web3.eth.defaultAccount = web3.eth.accounts[0];
+     var ElectionCont = web3.eth.contract([
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "name",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "to",
+				"type": "address"
+			}
+		],
+		"name": "giveVote",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "PublicKey",
+				"type": "address"
+			}
+		],
+		"name": "isServing",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "giveWinner",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			},
+			{
+				"name": "",
+				"type": "uint32"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "PublicKey",
+				"type": "address"
+			}
+		],
+		"name": "is_candidate_registered",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "end_Election",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "PublicKey",
+				"type": "address"
+			}
+		],
+		"name": "removeElectionOfficer",
+		"outputs": [],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "",
+				"type": "uint256"
+			}
+		],
+		"name": "ad",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "PublicKey",
+				"type": "address"
+			},
+			{
+				"name": "Name",
+				"type": "string"
+			}
+		],
+		"name": "addCandidate",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [],
+		"name": "start_Election",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "PublicKey",
+				"type": "address"
+			},
+			{
+				"name": "Name",
+				"type": "string"
+			}
+		],
+		"name": "addElectionOfficers",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "Election_Commission",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": false,
+		"inputs": [
+			{
+				"name": "PublicKey",
+				"type": "address"
+			},
+			{
+				"name": "Name",
+				"type": "string"
+			}
+		],
+		"name": "addVoter",
+		"outputs": [
+			{
+				"name": "",
+				"type": "string"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [],
+		"name": "ElectionOfficer",
+		"outputs": [
+			{
+				"name": "",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"constant": true,
+		"inputs": [
+			{
+				"name": "PublicKey",
+				"type": "address"
+			}
+		],
+		"name": "is_voter_registered",
+		"outputs": [
+			{
+				"name": "",
+				"type": "bool"
+			}
+		],
+		"payable": false,
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"name": "Election_Officer",
+				"type": "address"
+			}
+		],
+		"payable": false,
+		"stateMutability": "nonpayable",
+		"type": "constructor"
+	}
+]);
+     var Election = ElectionCont.at('0x894e5952124a246ab1929041d673D3Cf1Bfd6fEE');
+     console.log(Election);
+	</script>
+	<script type="text/javascript">
+		var Candidate_Name = document.querySelector("#NameCan");
+		var ckey = document.querySelector("#ckey");
+		var submitCan = document.querySelector("#submitCan");
+		submitCan.addEventListener("click",function(){
+			alert(Election.addCandidate((ckey.value) , Candidate_Name.value,{gas:3000000}));
+		});
+
+		var Voter_Name = document.querySelector("#NameVot");
+		var vkey = document.querySelector("#vkey");
+		var submitVot = document.querySelector("#submitVot");
+		submitVot.addEventListener("click",function(){
+			web3.eth.defaultAccount = web3.eth.accounts[1];
+			alert(Election.addVoter((vkey.value) , Voter_Name.value, {gas:3000000}));
+		});
+
+		var start = document.querySelector("#btn__start");
+		start.addEventListener("click",function(){
+			web3.eth.defaultAccount = web3.eth.accounts[1];
+			alert(Election.start_Election({gas:3000000}));
+		});
+
+	</script>
+</body>
+</html>

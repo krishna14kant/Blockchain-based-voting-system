@@ -1,0 +1,74 @@
+  *,*::after,*::before{
+	margin: 0;
+	padding: 0;
+	box-sizing: inherit;
+}
+
+html{
+	font-size: 62.5%;
+}
+
+body{
+	box-sizing: border-box;
+	font-family:"Lato", sans-serif;
+	font-weight: 400;
+	font-size: 1.6rem;
+	line-height: 1.7;
+	color:#fff;
+	padding: 3rem;
+	 background-image: linear-gradient(to right, #7ed56f, #28b485);
+}
+
+.add__member{
+	font-size: 2.5rem;
+	font-weight: 600;
+}
+.main{
+
+	margin:0 auto;
+	display: flex;
+}
+.Member__info{
+	border: 2px solid white;
+	display: block;
+	height: 50rem;
+	width: 60rem;
+	margin: 2rem;
+	margin-left: 30rem; 
+	padding: 5rem;
+}
+.Candidate__info{
+	border: 2px solid white;
+	display: block;
+	height: 50rem;
+	width: 30rem;
+	margin: 2rem;
+	padding: 5rem;
+}
+
+#submitMember{
+	margin-top: 10rem;
+	font-size: 2.5rem;
+}
+.Albem{
+	background-image: url("http://3.bp.blogspot.com/-pYLExfqDT5c/UdwXt_BwkWI/AAAAAAAAAPY/tZIuMx4LSI4/s1600/img-thing.jpg");
+	border-radius: 100px;
+	width:30rem;
+	height: auto;
+	background-repeat: no-repeat;
+	background-size: contain;
+	margin-top: 15rem;
+	margin-left: -30rem;
+}
+#pkey{
+	margin: 2rem 0;
+	width: 50rem;
+}
+#NameMem{
+	width: 50rem;
+}
+.heading__primary{
+	text-align: center;
+	font-size: 3rem;
+	font-weight: 700;
+}

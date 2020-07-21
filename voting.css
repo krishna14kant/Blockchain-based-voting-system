@@ -1,0 +1,34 @@
+#btn__start{
+	text-decoration: none;
+	list-style: none;
+	}
+
+.forms{
+	display: flex;
+	justify-content: center;
+}
+.Member__info{
+	height:20rem;
+	background-color: #7ed56f;
+	color: white;
+	margin: 2rem;
+	width:25rem;
+	border-radius: 1rem;
+	text-align: center;
+}
+#ckey{
+	width:24.7rem;
+	margin-bottom: 1rem;
+}
+#NameCan{
+	width: 24.7rem;
+	margin-bottom: 4rem;
+}
+#vkey{
+	width:24.7rem;
+	margin-bottom: 1rem;
+}
+#NameVot{
+	width: 24.7rem;
+	margin-bottom: 4rem;
+}
